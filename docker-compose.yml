@@ -8,7 +8,7 @@ services:
       - ./config/jellyfin:/config
       - ./cache/jellyfin:/cache
       - type: bind
-        source: /home/bloppai/Videos/Movies
+        source: ${MEDIA_SOURCE}
         target: /media
         read_only: true
     restart: 'unless-stopped'
@@ -17,7 +17,8 @@ services:
     image: haugene/transmission-openvpn
     container_name: transmission
     volumes:
-      - ./data:/data 
+      - ${MEDIA_SOURCE}:/media_source
+      - ./config/transmission:/config
     environment:
       - PUID=1000
       - PGID=1000
@@ -29,8 +30,8 @@ services:
       - WEBPROXY_ENABLED=false
       - TRANSMISSION_IDLE_SEEDING_LIMIT_ENABLED=true
       - TRANSMISSION_SEED_QUEUE_ENABLED=true
-      - TRANSMISSION_DOWNLOAD_DIR=/data/downloads
-      - TRANSMISSION_INCOMPLETE_DIR=/data/incomplete
+      - TRANSMISSION_DOWNLOAD_DIR=/media_source
+      - TRANSMISSION_INCOMPLETE_DIR=/media_source/incomplete_download
       - LOCAL_NETWORK=192.168.0.0/16
     sysctls:
       - "net.ipv6.conf.all.disable_ipv6=0"
