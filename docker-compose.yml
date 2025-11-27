@@ -5,8 +5,8 @@ services:
     user: 1000:1000
     network_mode: 'host'
     volumes:
-      - ./config:/config
-      - ./cache:/cache
+      - ./config/jellyfin:/config
+      - ./config/jellyfin:/cache
       - type: bind
         source: /home/bloppai/Videos/Movies
         target: /media
