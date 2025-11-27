@@ -6,7 +6,7 @@ services:
     network_mode: 'host'
     volumes:
       - ./config/jellyfin:/config
-      - ./config/jellyfin:/cache
+      - ./cache/jellyfin:/cache
       - type: bind
         source: /home/bloppai/Videos/Movies
         target: /media
