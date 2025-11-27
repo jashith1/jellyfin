@@ -1,2 +1,5 @@
 /config
 /cache
+/data
+.env
+

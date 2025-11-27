@@ -13,3 +13,30 @@ services:
         read_only: true
     restart: 'unless-stopped'
 
+  transmission:
+    image: haugene/transmission-openvpn
+    container_name: transmission
+    volumes:
+      - ./data:/data 
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - CREATE_TUN_DEVICE=true
+      - OPENVPN_PROVIDER=MULLVAD
+      - OPENVPN_CONFIG=us_nyc
+      - OPENVPN_USERNAME=${MULLVAD_ACCOUNT_ID}
+      - OPENVPN_PASSWORD=m
+      - WEBPROXY_ENABLED=false
+      - TRANSMISSION_IDLE_SEEDING_LIMIT_ENABLED=true
+      - TRANSMISSION_SEED_QUEUE_ENABLED=true
+      - TRANSMISSION_DOWNLOAD_DIR=/data/downloads
+      - TRANSMISSION_INCOMPLETE_DIR=/data/incomplete
+      - LOCAL_NETWORK=192.168.0.0/16
+    sysctls:
+      - "net.ipv6.conf.all.disable_ipv6=0"
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "9091:9091"
+    restart: unless-stopped
+
